@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping(value = "order")
-public class OrderController {
+@RequestMapping(value = "test")
+public class TestController {
 
     @GetMapping(value = "list")
     public String list(){
-        log.warn("Order list 请求处理中 。。。");
+        log.warn("TestController list 请求处理中 。。。");
 
 
 
 
-        return "list ok";
+        return "TestController list ok";
     }
 }
