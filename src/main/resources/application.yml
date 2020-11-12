@@ -11,3 +11,7 @@ spring:
     encoding: UTF-8
   profiles:
     active: prod
+uwjx:
+  jwt:
+    accessTokenExpireTime: 999999
+    refreshTokenExpireTime: 89999999999999
