@@ -15,9 +15,15 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
 
 @EnableWebSecurity(debug = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Resource
+    private DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,27 +37,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll()
                 .and()
-                .httpBasic()
+                .httpBasic()//启用 http basic 认证
         .and()
         .csrf(Customizer.withDefaults());
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().
-                withUser("wanghuan")
-                .password(passwordEncoder().encode("123456"))
-                .roles("ADMIN", "USER");
+        auth.jdbcAuthentication()
+
+                .dataSource(dataSource)
+        .authoritiesByUsernameQuery("");
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().mvcMatchers("/test/**" , "/user/**" , "/error") //添加排除拦截 URI
+        web.ignoring().mvcMatchers("/test/**" , "/user/**" , "/error" , "/h2-console/**") //添加排除拦截 URI
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()); //静态资源的排除
     }
 
+//    @Bean
+//    PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
     @Bean
     PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance()
+                ;
     }
 }

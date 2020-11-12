@@ -11,7 +11,6 @@ import javax.validation.constraints.Positive;
 public class UserDto {
 
     @NotNull(message = "id不可以为空 NotNull")
-    @NotBlank(message = "id不可以为空 NotBlank")
     @Positive(message = "id 必须为正数")
     private Long id;
     @NotNull(message = "用户名不可以为空 NotNull")

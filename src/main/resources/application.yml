@@ -1,7 +1,7 @@
 logging:
   level:
     org.springframework.security: debug
-
+    org.springframework.jdbc.core: trace
 spring:
   messages:
     basename: messages
@@ -9,3 +9,5 @@ spring:
   thymeleaf:
     cache: false
     encoding: UTF-8
+  profiles:
+    active: prod
